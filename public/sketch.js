@@ -138,13 +138,13 @@ function setup() {
   // let buttonCommNon = createNormalButton2("Comm None", 1500, 700, m_bw, m_bh);
   // buttonCommNon.mousePressed(function(){    setComm(COMM_NONE);  });
   // buttonCommNon.style('padding', '5px 0px');
-  let buttonCommTop = createNormalButton2("Comm Top", 1500, 800, m_bw, m_bh);
+  let buttonCommTop = createNormalButton2("Comm High", 1500, 800, m_bw, m_bh);
   buttonCommTop.mousePressed(function(){    setComm(COMM_TOP);  });
   buttonCommTop.style('padding', '5px 0px');
-  let buttonCommMid = createNormalButton2("Comm Mid", 1550, 800, m_bw, m_bh);
+  let buttonCommMid = createNormalButton2("Comm Only", 1550, 800, m_bw, m_bh);
   buttonCommMid.mousePressed(function(){    setComm(COMM_MID);  });
   buttonCommMid.style('padding', '5px 0px');
-  let buttonCommBot = createNormalButton2("Comm Bot", 1500, 850, m_bw, m_bh);
+  let buttonCommBot = createNormalButton2("Comm Low", 1500, 850, m_bw, m_bh);
   buttonCommBot.mousePressed(function(){    setComm(COMM_BOT);  });
   buttonCommBot.style('padding', '5px 0px');
   let buttonCommUnk = createNormalButton2("Comm Unk", 1550, 850, m_bw, m_bh);
