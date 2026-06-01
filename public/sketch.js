@@ -10,6 +10,7 @@ var m_colorNum = 0;
 let m_s = 1.0;
 let m_cardBackImage, m_cardImages= [], m_starFieldImage;
 let m_backgroundImage, m_tableImage;
+let m_playerImages = [];
 let m_playCardsUnshuffled = [], m_taskCardsUnshuffled = [];  // Card objects
 let m_playDeck, m_taskDeck;  // Deck object
 let m_decks = [];  // Decks
@@ -49,6 +50,15 @@ function preload() {
   m_starFieldImage = loadImage('Assets/starField.jpg')
   m_backgroundImage = loadImage('Assets/tableBackground.jpg');
   m_tableImage = loadImage('Assets/feltRed.jpg');
+
+  // load player images
+  m_playerImages['john'] = loadImage('Assets/john.jpg');
+  m_playerImages['ron'] = loadImage('Assets/ron.jpg');
+  m_playerImages['bob'] = loadImage('Assets/bob.jpg');
+  m_playerImages['daveb'] = loadImage('Assets/daveB.jpg');
+  m_playerImages['daveh'] = loadImage('Assets/daveH.jpg');
+  m_playerImages['flash'] = loadImage('Assets/flash.jpg');
+
 }
 
 function setup() {
@@ -96,8 +106,9 @@ function setup() {
   // Temporary Buttons
 
   // Init Button
-  m_initButton = createButton('Init: Enter Name');
-  m_initButton.mousePressed(initPlayerToServer);
+  // m_initButton = createButton('Init: Enter Name');
+  // m_initButton.mousePressed(initPlayerToServer);
+  m_initButton = createSpan('Type Name and hit Enter');
   m_nameInputButton = createInput();
   m_nameInputButton.changed(initPlayerToServer);
 

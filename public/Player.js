@@ -25,6 +25,10 @@ class Player {
     let name = this.name;
     if (this.isCommander) name += " (C)";
 
+    // player image
+    let imgName = this.name.toLowerCase();
+    imgName = imgName.replace(/\s/g, '');
+
     // myself
     if (relativeSeatPos == 0) {
       if (m_distress) name += " (Distress)";
@@ -38,19 +42,22 @@ class Player {
       const comms = this.cards.filter(card => card.commStatus != 0 && card.played == false);
       const played = this.cards.filter(card => card.played == true);
       text(nonComms.length, 0, 690*m_s + 32*m_s);
+      if (m_playerImages[imgName]) {
+        image(m_playerImages[imgName], 150*m_s, 650*m_s, 75*m_s, 75*m_s);
+      }
 
       // regular cards
       let space = 800*m_s;
       let offset = Math.min(space / nonComms.length, m_cw*m_s);
       // regular
       for (let i = 0; i < nonComms.length; i++) {
-        nonComms[i].x = i*offset;
+        nonComms[i].x = 0*m_s + i*offset; // 125*m_s + i*offset;
         nonComms[i].y = 750*m_s;
         nonComms[i].show();
       }
       // communication
       if (comms.length > 0) {
-        comms[0].x = 875*m_s;
+        comms[0].x = 875*m_s;  // 975*m_s;
         comms[0].y = 750*m_s;
         comms[0].show();
       }
@@ -77,13 +84,13 @@ class Player {
       }
     } 
     if (relativeSeatPos == 1) {
-      this.drawOddSeat(relativeSeatPos, 0*m_s, 275*m_s, name);
+      this.drawOddSeat(relativeSeatPos, 0*m_s, 275*m_s, name, imgName);
     }
     if (relativeSeatPos == 2) {
-      this.drawOppositeSeat(350*m_s, 0*m_s, name);
+      this.drawOppositeSeat(350*m_s, 0*m_s, name, imgName);
     }
     if (relativeSeatPos == 3) {
-      this.drawOddSeat(relativeSeatPos, 1000*m_s, 275*m_s, name);
+      this.drawOddSeat(relativeSeatPos, 1000*m_s, 275*m_s, name, imgName);
       // fill(128), noStroke();
       // rect(1000, 275*m_s, 500*m_s, 350*m_s);
       // stroke(255), fill(255), textSize(32*m_s);
@@ -91,12 +98,16 @@ class Player {
     }
   }
 
-  drawOppositeSeat(xstart, ystart, name) {
+  drawOppositeSeat(xstart, ystart, name, imgName) {
     fill(128), noStroke();
-    rect(xstart*m_s, ystart*m_s, 900*m_s, 250*m_s);
-    image(m_starFieldImage, xstart*m_s, ystart*m_s, 900*m_s, 250*m_s);
+    rect(xstart, ystart, 900*m_s, 250*m_s);
+    image(m_starFieldImage, xstart, ystart, 900*m_s, 250*m_s);
     stroke(255), fill(255), textSize(32*m_s);
-    text(name, xstart*m_s, 32*m_s);
+    text(name, xstart, 32*m_s);
+    if (m_playerImages[imgName]) {
+      image(m_playerImages[imgName], xstart+150*m_s, ystart, 75*m_s, 75*m_s);
+    }
+
     
     const nonComms = this.cards.filter(card => card.commStatus == 0 && card.played == false);
     const comms = this.cards.filter(card => card.commStatus != 0 && card.played == false);
@@ -140,12 +151,15 @@ class Player {
 
   } 
 
-  drawOddSeat(relativeSeatPos, xstart, ystart, name) {
+  drawOddSeat(relativeSeatPos, xstart, ystart, name, imgName) {
     fill(128), noStroke();
-    rect(xstart, ystart*m_s, 500*m_s, 350*m_s);
-    image(m_starFieldImage, xstart, ystart*m_s, 500*m_s, 350*m_s);
+    rect(xstart, ystart, 500*m_s, 350*m_s);
+    image(m_starFieldImage, xstart, ystart, 500*m_s, 350*m_s);
     stroke(255), fill(255), textSize(32*m_s);
-    text(name, xstart, ystart*m_s + 32*m_s);
+    text(name, xstart, ystart + 32*m_s);
+    if (m_playerImages[imgName]) {
+      image(m_playerImages[imgName], xstart, ystart+50*m_s, 75*m_s, 75*m_s);
+    }
 
     const nonComms = this.cards.filter(card => card.commStatus == 0 && card.played == false);
     const comms = this.cards.filter(card => card.commStatus != 0 && card.played == false);
