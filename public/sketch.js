@@ -135,9 +135,9 @@ function setup() {
   buttonShiftRight.mousePressed(shiftRight);
   // buttonShiftLeft.mousePressed(function(){    shiftCards(1);  });
 
-  // let buttonCommNon = createNormalButton2("Comm None", 1500, 700, m_bw, m_bh);
-  // buttonCommNon.mousePressed(function(){    setComm(COMM_NONE);  });
-  // buttonCommNon.style('padding', '5px 0px');
+  let buttonCommNon = createNormalButton2("Comm None", 1500, 750, m_bw, m_bh);
+  buttonCommNon.mousePressed(function(){    setComm(COMM_NONE);  });
+  buttonCommNon.style('padding', '5px 0px');
   let buttonCommTop = createNormalButton2("Comm High", 1500, 800, m_bw, m_bh);
   buttonCommTop.mousePressed(function(){    setComm(COMM_TOP);  });
   buttonCommTop.style('padding', '5px 0px');
@@ -161,6 +161,10 @@ function setup() {
 
   let buttonPlayCard = createNormalButton2("Play Card", 700, 675, m_bw, m_bh);
   buttonPlayCard.mousePressed(playSelectedCard);
+
+  let buttonUnplayCard = createNormalButton2("Unplay Card", 800, 675, m_bw, m_bh);
+  buttonUnplayCard.mousePressed(unplaySelectedCard);
+  buttonUnplayCard.style('padding', '5px 0px');
 
   let buttonTakeTrick = createNormalButton2("Take Trick", 1050, 675, m_bw, m_bh);
   buttonTakeTrick.mousePressed(takeTrick);
@@ -602,6 +606,26 @@ function playSelectedCard() {
   for (let card of m_thisPlayer.cards) {
     if (card.selected) {
       card.played = true;
+      card.selected = false;
+      update();
+      break;
+    }
+  }
+}
+
+
+function unplaySelectedCard() {
+  // for (let card of m_thisPlayer.cards) {
+  //   if (card.played) {
+  //     m_messageP.html('You have already played a card.');
+  //     card.selected = false;
+  //     update();
+  //     return;
+  //   }
+  // }
+  for (let card of m_thisPlayer.cards) {
+    if (card.played) {
+      card.played = false;
       card.selected = false;
       update();
       break;
