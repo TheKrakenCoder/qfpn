@@ -72,6 +72,8 @@ class Player {
         this.taskCards[i].x = 1500*m_s - (i+1)*m_cw;
         this.taskCards[i].y = 750*m_s;
         this.taskCards[i].show();
+        stroke(255, 0, 0), fill(0), textSize(32*m_s);
+        text('TASK', this.taskCards[i].x, this.taskCards[i].y+m_ch)
       }
 
       // draw the cards in the last trick
@@ -147,6 +149,8 @@ class Player {
       this.taskCards[i].x = xstart + 300*m_s + i*m_cw;
       this.taskCards[i].y = ystart + 100*m_s;
       this.taskCards[i].show();
+      stroke(255, 0, 0), fill(0), textSize(32*m_s);
+      text('TASK', this.taskCards[i].x, this.taskCards[i].y+m_ch)
     }
 
   } 
@@ -204,6 +208,8 @@ class Player {
       this.taskCards[i].x = xstart + 0*m_s + i*m_cw;
       this.taskCards[i].y = ystart + 200*m_s;
       this.taskCards[i].show();
+      stroke(255, 0, 0), fill(0), textSize(32*m_s);
+      text('TASK', this.taskCards[i].x, this.taskCards[i].y+m_ch)
     }
 
 
