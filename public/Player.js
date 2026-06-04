@@ -14,6 +14,8 @@ class Player {
     this.cards = []; // Card objects
     this.taskCards = []  // Card objects
     this.isCommander = false;
+    this.usedCommunication = false;
+    this.tookLastTrick = false;
   }  // xtor
 
   show() {
@@ -45,6 +47,16 @@ class Player {
       if (m_playerImages[imgName]) {
         image(m_playerImages[imgName], 150*m_s, 650*m_s, 75*m_s, 75*m_s);
       }
+      // if we took thelast trick, outline the image (or where the image would be)
+      if (this.tookLastTrick) {
+        stroke(0, 255, 0); noFill(), strokeWeight(4);
+        rect(150*m_s, 650*m_s, 75*m_s, 75*m_s);
+        stroke(255), fill(255), strokeWeight(1);
+      }
+      // draw whether this player has used communicaiton this round
+      if (this.usedCommunication) {fill(255, 0, 0); stroke(255, 0, 0);}
+      else                        {fill(0, 255, 0); stroke(0, 255, 0);}
+      circle(275*m_s, 700*m_s, 50*m_s);
 
       // regular cards
       let space = 800*m_s;
@@ -84,6 +96,7 @@ class Player {
           image(m_cardImages[card.index], 1500*m_s-m_cw*(i+1)*0.67, 650*m_s, m_cw*0.67, m_ch*0.67);
         }
       }
+
     } 
     if (relativeSeatPos == 1) {
       this.drawOddSeat(relativeSeatPos, 0*m_s, 275*m_s, name, imgName);
@@ -109,8 +122,17 @@ class Player {
     if (m_playerImages[imgName]) {
       image(m_playerImages[imgName], xstart+150*m_s, ystart, 75*m_s, 75*m_s);
     }
+    // if we took thelast trick, outline the image (or where the image would be)
+    if (this.tookLastTrick) {
+      stroke(0, 255, 0); noFill(), strokeWeight(4);
+      rect(xstart+150*m_s, ystart, 75*m_s, 75*m_s);
+      stroke(255), fill(255), strokeWeight(1);
+    }
+    // draw whether this player has used communicaiton this round
+    if (this.usedCommunication) {fill(255, 0, 0); stroke(255, 0, 0);}
+    else                        {fill(0, 255, 0); stroke(0, 255, 0);}
+    circle(xstart + 275*m_s, ystart + 50*m_s, 50*m_s);
 
-    
     const nonComms = this.cards.filter(card => card.commStatus == 0 && card.played == false);
     const comms = this.cards.filter(card => card.commStatus != 0 && card.played == false);
     const played = this.cards.filter(card => card.played == true);
@@ -146,7 +168,7 @@ class Player {
   
     // task cards
     for (let i = 0; i < this.taskCards.length; i++) {
-      this.taskCards[i].x = xstart + 300*m_s + i*m_cw;
+      this.taskCards[i].x = xstart + 400*m_s + i*m_cw;
       this.taskCards[i].y = ystart + 100*m_s;
       this.taskCards[i].show();
       stroke(255, 0, 0), fill(0), textSize(32*m_s);
@@ -164,6 +186,16 @@ class Player {
     if (m_playerImages[imgName]) {
       image(m_playerImages[imgName], xstart, ystart+50*m_s, 75*m_s, 75*m_s);
     }
+    // if we took thelast trick, outline the image (or where the image would be)
+    if (this.tookLastTrick) {
+      stroke(0, 255, 0); noFill(), strokeWeight(4);
+      rect(xstart, ystart+50*m_s, 75*m_s, 75*m_s);
+      stroke(255), fill(255), strokeWeight(1);
+    }
+    // draw whether this player has used communicaiton this round
+    if (this.usedCommunication) {fill(255, 0, 0); stroke(255, 0, 0);}
+    else                        {fill(0, 255, 0); stroke(0, 255, 0);}
+    circle(xstart + 35*m_s, ystart + 175*m_s, 50*m_s);
 
     const nonComms = this.cards.filter(card => card.commStatus == 0 && card.played == false);
     const comms = this.cards.filter(card => card.commStatus != 0 && card.played == false);
@@ -195,10 +227,10 @@ class Player {
     if (played.length > 0) {
       if (relativeSeatPos == 1) {
         played[0].x = xstart + 520*m_s;
-        played[0].y = ystart + 130*m_s;
+        played[0].y = ystart + 110*m_s;
       } else {
         played[0].x = xstart - 120*m_s;
-        played[0].y = ystart + 130*m_s;
+        played[0].y = ystart + 110*m_s;
       }
       played[0].show();
     }
@@ -229,6 +261,8 @@ class Player {
     this.cards = [];
     this.taskCards = [];
     this.isCommander = false;
+    this.usedCommunication = false;
+    this.tookLastTrick = false;
   }
 
   // data: a Player object
@@ -237,6 +271,8 @@ class Player {
     this.seatPos = data.seatPos;
     this.name = data.name;
     this.isCommander = data.isCommander;
+    this.usedCommunication = data.usedCommunication;
+    this.tookLastTrick = data.tookLastTrick;
 
     if (data.cards) {
       for (let c of data.cards) {

@@ -18,14 +18,15 @@ class Card {
     noStroke(); noFill();
     image(m_cardImages[this.index], this.x, this.y, m_cw, m_ch);
 
-    if (this.commStatus && this.commStatus != COMM_UNK) {
+    if (this.commStatus) { // && this.commStatus != COMM_UNK) {
       let ts = 32*m_s;
       textSize(ts); fill(0), stroke(0);
       let x = this.x+m_cw/2-ts/2*m_s - 5*m_s;
       let y = this.y + ts/2 + 10*m_s;  // top
-      if (this.commStatus == COMM_MID) y = this.y + m_ch/2 + ts/2*m_s;
+      if (this.commStatus == COMM_MID || this.commStatus == COMM_UNK) y = this.y + m_ch/2 + ts/2*m_s;
       if (this.commStatus == COMM_BOT) y = this.y + m_ch;
-      text("🟢", x, y);
+      if (this.commStatus != COMM_UNK) text("🟢", x, y);
+      else                             text("❓", x, y);
     } else if (this.taskStatus) {
       push();
       textAlign(CENTER, CENTER);

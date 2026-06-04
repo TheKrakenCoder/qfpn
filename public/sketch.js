@@ -136,19 +136,19 @@ function setup() {
   // buttonShiftLeft.mousePressed(function(){    shiftCards(1);  });
 
   let buttonCommNon = createNormalButton2("Comm None", 1500, 750, m_bw, m_bh);
-  buttonCommNon.mousePressed(function(){    setComm(COMM_NONE);  });
+  buttonCommNon.mousePressed(function(){    setComm(COMM_NONE); m_thisPlayer.usedCommunication = false; update(); });
   buttonCommNon.style('padding', '5px 0px');
   let buttonCommTop = createNormalButton2("Comm High", 1500, 800, m_bw, m_bh);
-  buttonCommTop.mousePressed(function(){    setComm(COMM_TOP);  });
+  buttonCommTop.mousePressed(function(){    setComm(COMM_TOP);  m_thisPlayer.usedCommunication = true; update(); });
   buttonCommTop.style('padding', '5px 0px');
   let buttonCommMid = createNormalButton2("Comm Only", 1550, 800, m_bw, m_bh);
-  buttonCommMid.mousePressed(function(){    setComm(COMM_MID);  });
+  buttonCommMid.mousePressed(function(){    setComm(COMM_MID);  m_thisPlayer.usedCommunication = true; update(); });
   buttonCommMid.style('padding', '5px 0px');
   let buttonCommBot = createNormalButton2("Comm Low", 1500, 850, m_bw, m_bh);
-  buttonCommBot.mousePressed(function(){    setComm(COMM_BOT);  });
+  buttonCommBot.mousePressed(function(){    setComm(COMM_BOT);  m_thisPlayer.usedCommunication = true; update(); });
   buttonCommBot.style('padding', '5px 0px');
   let buttonCommUnk = createNormalButton2("Comm Unk", 1550, 850, m_bw, m_bh);
-  buttonCommUnk.mousePressed(function(){    setComm(COMM_UNK);  });
+  buttonCommUnk.mousePressed(function(){    setComm(COMM_UNK);  m_thisPlayer.usedCommunication = true; update(); });
   buttonCommUnk.style('padding', '5px 0px');
 
   let buttonCommander = createNormalButton2("Cmdr", 1500, 50, m_bw, m_bh);
@@ -418,6 +418,9 @@ function createNormalButton2(name, x, y, w, h) {
     button.position(x, y);
     button.style('font-size', '16px');
     button.style('background-color', "#F0F0F0")
+    button.style('borderRadius', "8px");
+    button.mouseOver(() => button.style('background-color', 'lightblue'));
+    button.mouseOut(() => button.style('background-color', '#F0F0F0'));
     // button.style('box-shadow', '3px 3px 8px rgba(0, 0, 0, 0.3)');
     m_allButtons.push(new Button(button, x, y, w, h));
     return button;
@@ -646,6 +649,7 @@ function takeTrick() {
     return;
   }
   for (let player of m_players) {
+    player.tookLastTrick = false;
     for (let c = 0; c < player.cards.length; c++) {
       if (player.cards[c].played) {
         let cards = player.cards.splice(c, 1);
@@ -654,6 +658,7 @@ function takeTrick() {
       }
     }
   }
+  m_thisPlayer.tookLastTrick = true;
   update();
 
 }
@@ -675,6 +680,7 @@ function markTaskCard(ts) {
     return;
   }
   cards[0].taskStatus = ts;
+  cards[0].selected = false;
   update();
 }
 // ts: task status integer
