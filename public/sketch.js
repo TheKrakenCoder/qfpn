@@ -52,13 +52,33 @@ function preload() {
   m_tableImage = loadImage('Assets/feltRed.jpg');
 
   // load player images
-  m_playerImages['john'] = loadImage('Assets/john.jpg');
-  m_playerImages['ron'] = loadImage('Assets/ron.jpg');
-  m_playerImages['bob'] = loadImage('Assets/bob.jpg');
-  m_playerImages['daveb'] = loadImage('Assets/daveB.jpg');
-  m_playerImages['daveh'] = loadImage('Assets/daveH.jpg');
-  m_playerImages['flash'] = loadImage('Assets/flash.jpg');
-
+  m_playerImages['john'] = loadImage('Assets/picJohn.jpg');
+  m_playerImages['ron'] = loadImage('Assets/picRon.jpg');
+  m_playerImages['bob'] = loadImage('Assets/picBob.jpg');
+  m_playerImages['daveb'] = loadImage('Assets/picDaveB.jpg');
+  m_playerImages['daveh'] = loadImage('Assets/picDaveH.jpg');
+  m_playerImages['flash'] = loadImage('Assets/picFlash.jpg');
+  m_playerImages['amanda'] = loadImage('Assets/picAmanda.jpg');
+  m_playerImages['amelia'] = loadImage('Assets/picAmelia.jpg');
+  m_playerImages['charlie'] = loadImage('Assets/picCharlie.jpg');
+  m_playerImages['cyndi'] = loadImage('Assets/picCyndi.jpg');
+  m_playerImages['danny'] = loadImage('Assets/picDanny.jpg');
+  m_playerImages['jake'] = loadImage('Assets/picJake.jpg');
+  m_playerImages['jessica'] = loadImage('Assets/picJessica.jpg');
+  m_playerImages['joe'] = loadImage('Assets/picJoe.jpg');
+  // m_playerImages['john'] = loadImage('Assets/picJohn.jpg');
+  m_playerImages['justin'] = loadImage('Assets/picJustin.jpg');
+  m_playerImages['liz'] = loadImage('Assets/picLiz.jpg');
+  m_playerImages['lou'] = loadImage('Assets/picLou.jpg');
+  m_playerImages['matt'] = loadImage('Assets/picMatt.jpg');
+  m_playerImages['matthew'] = loadImage('Assets/picMatthew.jpg');
+  m_playerImages['melissa'] = loadImage('Assets/picMelissa.jpg');
+  m_playerImages['micaela'] = loadImage('Assets/picMicaela.jpg');
+  m_playerImages['michael'] = loadImage('Assets/picMichael.jpg');
+  m_playerImages['rebecca'] = loadImage('Assets/picRebecca.jpg');
+  m_playerImages['steffanie'] = loadImage('Assets/picSteffanie.jpg');
+  m_playerImages['steve'] = loadImage('Assets/picSteve.jpg');
+  m_playerImages['steven'] = loadImage('Assets/picSteven.jpg');
 }
 
 function setup() {
