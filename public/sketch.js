@@ -214,7 +214,8 @@ function setup() {
   let buttonMarkTaskCardGGGG = createNormalButton2(">>>>", 1550, 450, m_bw, m_bh);
   buttonMarkTaskCardGGGG.mousePressed(function(){ markTaskCard(TASK_GGGG); } );
   let buttonMarkTaskCardComplete = createNormalButton2("✅", 1500, 500, m_bw, m_bh);
-  buttonMarkTaskCardComplete.mousePressed(function(){ markTaskCardComplete(TASK_COMPLETE); } );
+  buttonMarkTaskCardComplete.mousePressed(function(){ markTaskCard(TASK_COMPLETE); } );
+  // buttonMarkTaskCardComplete.mousePressed(function(){ markTaskCardComplete(TASK_COMPLETE); } );
 
   // Below canvas
   m_messageP = createDiv('Message here');
@@ -454,43 +455,100 @@ function mousePressed() {
   if (mouseX > 1500*m_s) return;
   if (!m_thisPlayer) return;
 
-  // check this player's cards
+  // We only want one card selected at a time, for player cards, task cardss and player task cards.
+
+  let changedState = false;
+
+  // Player cards can overlap, and we only want the last one checked to be (un)selected.
+  // Player cards are thus more complicated than task cards.
+  // Find the currently selected card, if any.
+  // Loop thru all cards, turning them off and saving the last card that was clicked on .
+  // If we clicked on a card, turn it on, assuming it wasn't the currently selected card
+  // which we turned off already, since we turn off every card
+  let currentlySelectedCard = null;
   let foundCard = null;
+  for (let card of m_thisPlayer.cards) if (card.selected) currentlySelectedCard = card;
   for (let card of m_thisPlayer.cards) {
+    card.selected = false;
     if (mouseX > card.x && mouseX < card.x+m_cw && mouseY > card.y && mouseY < card.y+m_ch) {
       foundCard = card;
     }
   }
-  // let foundTableTaskCard = false;
+  if (foundCard) {
+    changedState = true;
+    if (foundCard != currentlySelectedCard) {
+      foundCard.selected = true;
+    }
+  } else {
+    if (currentlySelectedCard) changedState = true;  // because we will have turned off any currently selected card
+  }
+
+
   for (let card of m_taskCards) {
     if (mouseX > card.x && mouseX < card.x+m_cw && mouseY > card.y && mouseY < card.y+m_ch) {
-      foundCard = card;
-      // foundTableTaskCard = true;
+      changedState = true;
+      card.selected = !card.selected;
+    } else {
+      if (card.selected) {
+        card.selected = false;
+        changedState = true;
+      } 
     }
-  }
+  } 
+
   for (let card of m_thisPlayer.taskCards) {
     if (mouseX > card.x && mouseX < card.x+m_cw && mouseY > card.y && mouseY < card.y+m_ch) {
-      foundCard = card;
+      changedState = true;
+      card.selected = !card.selected;
+    } else {
+      if (card.selected) {
+        card.selected = false;
+        changedState = true;
+      } 
     }
-  }
+  } 
 
-  if (foundCard) foundCard.selected = !foundCard.selected;
-  if (foundCard) update();
-  // if (foundTableTaskCard) update();
+  if (changedState) update();
 
-  // if we didn't click on a card, deselect all cards
-  if (!foundCard) {
-    const sel1 = m_thisPlayer.cards.filter(card => card.selected == true);
-    if (sel1.length > 0) for (let card of m_thisPlayer.cards) card.selected = false; 
+  // // This code allowed multiple cards to be selected at the same time.
 
-    const sel2 = m_taskCards.filter(card => card.selected == true);
-    if (sel2.length > 0) for (let card of m_taskCards) card.selected = false; 
+  // // check this player's cards
+  // let foundCard = null;
+  // for (let card of m_thisPlayer.cards) {
+  //   if (mouseX > card.x && mouseX < card.x+m_cw && mouseY > card.y && mouseY < card.y+m_ch) {
+  //     foundCard = card;
+  //   }
+  // }
+  // // let foundTableTaskCard = false;
+  // for (let card of m_taskCards) {
+  //   if (mouseX > card.x && mouseX < card.x+m_cw && mouseY > card.y && mouseY < card.y+m_ch) {
+  //     foundCard = card;
+  //     // foundTableTaskCard = true;
+  //   }
+  // }
+  // for (let card of m_thisPlayer.taskCards) {
+  //   if (mouseX > card.x && mouseX < card.x+m_cw && mouseY > card.y && mouseY < card.y+m_ch) {
+  //     foundCard = card;
+  //   }
+  // }
 
-    const sel3 = m_thisPlayer.taskCards.filter(card => card.selected == true);
-    if (sel3.length > 0) for (let card of m_thisPlayer.taskCards) card.selected = false; 
+  // if (foundCard) foundCard.selected = !foundCard.selected;
+  // if (foundCard) update();
+  // // if (foundTableTaskCard) update();
 
-    if (sel1 || sel2 || sel3) update();
-  }
+  // // if we didn't click on a card, deselect all cards
+  // if (!foundCard) {
+  //   const sel1 = m_thisPlayer.cards.filter(card => card.selected == true);
+  //   if (sel1.length > 0) for (let card of m_thisPlayer.cards) card.selected = false; 
+
+  //   const sel2 = m_taskCards.filter(card => card.selected == true);
+  //   if (sel2.length > 0) for (let card of m_taskCards) card.selected = false; 
+
+  //   const sel3 = m_thisPlayer.taskCards.filter(card => card.selected == true);
+  //   if (sel3.length > 0) for (let card of m_thisPlayer.taskCards) card.selected = false; 
+
+  //   if (sel1 || sel2 || sel3) update();
+  // }
 
 }
 
@@ -694,27 +752,48 @@ function dealTaskCard() {
 // ts: task status integer
 function markTaskCard(ts) {
   let cards = m_taskCards.filter(card => card.selected == true) 
-  if (cards.length != 1) {
-    m_messageP.html('You must select exactly one task card on the table to mark');
+  let cards2 = m_thisPlayer.taskCards.filter(card => card.selected == true) 
+  if ((cards.length + cards2.length) != 1) {
+    m_messageP.html('You must select exactly one task card to mark');
     update();
     return;
   }
-  cards[0].taskStatus = ts;
-  cards[0].selected = false;
-  update();
-}
-// ts: task status integer
-function markTaskCardComplete(ts) {
-  let cards = m_thisPlayer.taskCards.filter(card => card.selected == true) 
-  if (cards.length != 1) {
-    m_messageP.html('You must select exactly one of your task cards to complete');
-    update();
-    return;
+
+  if (cards.length > 0) {
+    cards[0].taskStatus = ts;
+    cards[0].selected = false;
   }
-  cards[0].taskStatus = ts;
-  cards[0].selected = false;
+  if (cards2.length > 0) {
+    cards2[0].taskStatus = ts;
+    cards2[0].selected = false;
+  }
   update();
 }
+
+// // ts: task status integer
+// function markTaskCard(ts) {
+//   let cards = m_taskCards.filter(card => card.selected == true) 
+//   if (cards.length != 1) {
+//     m_messageP.html('You must select exactly one task card on the table to mark');
+//     update();
+//     return;
+//   }
+//   cards[0].taskStatus = ts;
+//   cards[0].selected = false;
+//   update();
+// }
+// // ts: task status integer
+// function markTaskCardComplete(ts) {
+//   let cards = m_thisPlayer.taskCards.filter(card => card.selected == true) 
+//   if (cards.length != 1) {
+//     m_messageP.html('You must select exactly one of your task cards to complete');
+//     update();
+//     return;
+//   }
+//   cards[0].taskStatus = ts;
+//   cards[0].selected = false;
+//   update();
+// }
 
 ////////////////////////////////////////////
 // Draw

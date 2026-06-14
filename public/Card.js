@@ -39,6 +39,12 @@ class Card {
       text("⚪", x, y);
       text(m_taskMarkers[this.taskStatus], x, y);
       pop();
+
+      // drwa grey rectangle over completed task
+      if (this.taskStatus == TASK_COMPLETE) {
+        fill(0, 100);
+        rect(this.x, this.y, m_cw, m_ch);
+      }
     }
 
     if (this.selected) {
