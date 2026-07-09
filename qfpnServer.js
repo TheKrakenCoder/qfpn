@@ -116,6 +116,18 @@ io.on(
     });
 
     //----------------------------------------------
+
+    socket.on('resetServer', function(data) {
+      io.disconnectSockets();
+      m_players = [];
+      m_decks = [];
+      m_message = "&nbsp";
+      m_trickCards = [];
+      m_taskCards = [];
+      m_distress = false;
+    });
+
+    //----------------------------------------------
     socket.on('disconnect', function() {
       console.log('disconnect message: Client has disconnected.  Number of clients was ' + m_players.length);
       for (var i = m_players.length-1; i >= 0; i--) {
