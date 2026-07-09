@@ -410,6 +410,11 @@ function setGlobalsFromPlayerInfo() {
   m_playDeck = m_decks[DECK_PLAY];
 }
 
+function resetServer() {
+  let data = {};
+  m_socket.emit('resetServer', data);
+}
+
 // emit all the players and the table to the server
 function update() {
   if (m_initialized && m_socket) {
